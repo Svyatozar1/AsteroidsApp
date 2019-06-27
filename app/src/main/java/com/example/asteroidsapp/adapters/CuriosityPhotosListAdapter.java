@@ -34,12 +34,10 @@ public class CuriosityPhotosListAdapter
 
     class CuriosityPhotosListHolder extends RecyclerView.ViewHolder {
         private ImageView photo;
-        private TextView date;
 
         CuriosityPhotosListHolder(View view) {
             super(view);
             photo = view.findViewById(R.id.curiosityPhoto);
-            date = view.findViewById(R.id.curiosityPhotoDate);
         }
 
         void setContent(String curiosityPhotoUrl, String curiosityPhotoDateText) {
@@ -48,7 +46,6 @@ public class CuriosityPhotosListAdapter
                     .placeholder(R.drawable.placeholder)
                     .error(R.drawable.placeholder_error)
                     .into(photo);
-            date.setText(curiosityPhotoDateText);
         }
     }
 

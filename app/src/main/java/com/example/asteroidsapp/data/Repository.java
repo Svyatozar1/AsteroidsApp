@@ -48,7 +48,7 @@ public class Repository {
         });
         return imageOfTheDayLiveData;
     }
-    public MutableLiveData<List<Photo>> getCuriosityPhotos() {
+    public MutableLiveData<List<Photo>> getCuriosityPhotos(final String date) {
         final MutableLiveData<List<Photo>> curiosityPhotosLiveData = new MutableLiveData<>();
 
         if (!remoteDataSource.checkInternetConnection()) {
@@ -63,7 +63,7 @@ public class Repository {
         Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
             public void run() {
-                List<Photo> curiosityPhotos = remoteDataSource.getCuriosityPhotos();
+                List<Photo> curiosityPhotos = remoteDataSource.getCuriosityPhotos(date);
                 if (curiosityPhotos != null) {
                     curiosityPhotosLiveData.postValue(curiosityPhotos);
                     localDataSource.storeCuriosityPhotos(curiosityPhotos);

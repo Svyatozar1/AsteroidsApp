@@ -12,5 +12,7 @@ public interface NasaService {
     Call<ImageOfTheDay> getImageOfTheDay(@Query("api_key") String apiKey);
 
     @GET("/mars-photos/api/v1/rovers/curiosity/photos")
-    Call<Root> getCuriosityPhotos(@Query("sol") Integer sol, @Query("api_key") String apiKey);
+    Call<Root> getCuriosityPhotos(@Query("earth_date") String date, @Query("api_key") String apiKey);
+    //@GET("/mars-photos/api/v1/rovers/curiosity/photos")
+    //Call<Root> getCuriosityPhotos(@Query("sol") Integer sol, @Query("api_key") String apiKey);
 }

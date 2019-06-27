@@ -54,8 +54,8 @@ class RemoteDataSource {
         }
         return null;
     }
-    List<Photo> getCuriosityPhotos () {
-        Call<Root> call = nasaService.getCuriosityPhotos(1000, this.apiKey);
+    List<Photo> getCuriosityPhotos (String date) {
+        Call<Root> call = nasaService.getCuriosityPhotos(date, this.apiKey);
         try {
             Response<Root> response = call.execute();
             if (response.isSuccessful()) {
