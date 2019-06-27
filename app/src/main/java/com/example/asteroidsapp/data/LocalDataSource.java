@@ -3,6 +3,10 @@ package com.example.asteroidsapp.data;
 import android.content.Context;
 
 import com.example.asteroidsapp.data.entities.ImageOfTheDay;
+import com.example.asteroidsapp.data.entities.Photo;
+import com.example.asteroidsapp.data.entities.Photos;
+
+import java.util.List;
 
 import androidx.room.Room;
 
@@ -18,5 +22,12 @@ class LocalDataSource {
     }
     ImageOfTheDay getImageOfTheDay () {
         return asteroidsAppDB.imageOfTheDayDao().getImageOfTheDay();
+    }
+    void storeCuriosityPhotos (List<Photo> curiosityPhotos) {
+        asteroidsAppDB.curiosityPhotosDao().deleteAll();
+        asteroidsAppDB.curiosityPhotosDao().insertCuriosityPhotos(curiosityPhotos);
+    }
+    List<Photo> getCuriosityPhotos () {
+        return asteroidsAppDB.curiosityPhotosDao().getCuriosityPhotos();
     }
 }

@@ -4,8 +4,13 @@ import android.content.Context;
 
 import com.example.asteroidsapp.R;
 import com.example.asteroidsapp.data.entities.ImageOfTheDay;
+import com.example.asteroidsapp.data.entities.Photo;
+import com.example.asteroidsapp.data.entities.Photos;
+import com.example.asteroidsapp.data.entities.Root;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -49,26 +54,27 @@ class RemoteDataSource {
         }
         return null;
     }
-    /*
-    TodayWeather getWeatherDay(String city, String units) {
-        Call<WeatherDay> call = weatherService.getWeatherDay(city, units, this.apiKey);
+    List<Photo> getCuriosityPhotos () {
+        Call<Root> call = nasaService.getCuriosityPhotos(1000, this.apiKey);
         try {
-            Response<WeatherDay> response = call.execute();
+            Response<Root> response = call.execute();
             if (response.isSuccessful()) {
-                WeatherDay weatherDay = response.body();
-                TodayWeather todayWeather = new TodayWeather();
-                todayWeather.weatherCode = weatherDay.getWeather().get(0).getId();
-                todayWeather.weatherCondition = weatherDay.getWeather().get(0).getMain().toUpperCase();
-                todayWeather.temperature = weatherDay.getMain().getTemp();
-                todayWeather.wind = weatherDay.getWind().getSpeed();
-                todayWeather.pressure = (double) Math.round(weatherDay.getMain().getPressure() * 0.75);
-                todayWeather.humidity = weatherDay.getMain().getHumidity();
-                return todayWeather;
+                Root curiosityPhotos = response.body();
+                List<Photos> photosList = curiosityPhotos.getPhotos();
+                ArrayList<Photo> photoList = new ArrayList<Photo>();
+                for (Photos i : photosList) {
+                    Photo p = new Photo();
+                    p.id = i.getId();
+                    p.earth_date = i.getEarth_date();
+                    p.img_src = i.getImg_src();
+                    p.sol = i.getSol();
+                    photoList.add(p);
+                }
+                return photoList;
             }
         } catch (IOException ioex) {
             return null;
         }
         return null;
     }
-    */
 }

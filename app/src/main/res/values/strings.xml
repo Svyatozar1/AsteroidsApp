@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">AsteroidsApp</string>
+    <string name="app_name">NasaApp</string>
     <string name="image_of_the_day">Image Of The Day</string>
-    <string name="near_asteroids_list">Asteroids In Vicinity</string>
+    <string name="near_asteroids_list">Curiosity Photos</string>
     <string name="api_key">b416LSHjfgCG2zSdqUdbFdoBLtlgteO1ANhbYNPa</string>
 </resources>

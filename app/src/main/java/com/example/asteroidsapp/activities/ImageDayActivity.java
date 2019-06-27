@@ -2,11 +2,14 @@ package com.example.asteroidsapp.activities;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asteroidsapp.AsteroidsApp;
@@ -14,14 +17,23 @@ import com.example.asteroidsapp.R;
 import com.example.asteroidsapp.data.ImageOfTheDayDao;
 import com.example.asteroidsapp.data.Repository;
 import com.example.asteroidsapp.data.entities.ImageOfTheDay;
+import com.squareup.picasso.Picasso;
 
 public class ImageDayActivity extends AppCompatActivity implements Observer<ImageOfTheDay> {
     private Repository repository;
     private MutableLiveData<ImageOfTheDay> imageOfTheDayLiveData;
+    private TextView imageOfTheDayTitleView;
+    private TextView imageOfTheDayCopyrightView;
+    private TextView imageOfTheDayDescrptionView;
+    private AppCompatImageView imageOfTheDayView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_day);
+        imageOfTheDayView = findViewById(R.id.imageOfTheDay);
+        imageOfTheDayTitleView = findViewById(R.id.imageOfTheDayTitle);
+        imageOfTheDayCopyrightView = findViewById(R.id.imageCopyright);
+        imageOfTheDayDescrptionView = findViewById(R.id.imageOfTheDayDescription);
         repository = ((AsteroidsApp)getApplication()).getRepository();
         ActionBar actionBar = getSupportActionBar();
         try {
@@ -46,7 +58,14 @@ public class ImageDayActivity extends AppCompatActivity implements Observer<Imag
     @Override
     public void onChanged(ImageOfTheDay imageOfTheDay) {
         if (imageOfTheDay != null) {
-            Toast.makeText(this, imageOfTheDay.copyright, Toast.LENGTH_SHORT).show();
+            Picasso.with(this)
+                    .load(imageOfTheDay.url)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder_error)
+                    .into(imageOfTheDayView);
+            imageOfTheDayTitleView.setText(imageOfTheDay.title);
+            imageOfTheDayCopyrightView.setText("© " + imageOfTheDay.copyright);
+            imageOfTheDayDescrptionView.setText(imageOfTheDay.explanation);
         }
     }
 }

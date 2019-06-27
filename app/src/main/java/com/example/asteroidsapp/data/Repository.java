@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 
 import com.example.asteroidsapp.activities.ImageDayActivity;
 import com.example.asteroidsapp.data.entities.ImageOfTheDay;
+import com.example.asteroidsapp.data.entities.Photo;
 
+import java.util.List;
 import java.util.concurrent.Executors;
 
 import androidx.lifecycle.MutableLiveData;
@@ -45,5 +47,29 @@ public class Repository {
             }
         });
         return imageOfTheDayLiveData;
+    }
+    public MutableLiveData<List<Photo>> getCuriosityPhotos() {
+        final MutableLiveData<List<Photo>> curiosityPhotosLiveData = new MutableLiveData<>();
+
+        if (!remoteDataSource.checkInternetConnection()) {
+            Executors.newSingleThreadExecutor().execute(new Runnable() {
+                @Override
+                public void run() {
+                    List<Photo> curiosityPhotos = localDataSource.getCuriosityPhotos();
+                    curiosityPhotosLiveData.postValue(curiosityPhotos);
+                }
+            });
+        }
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                List<Photo> curiosityPhotos = remoteDataSource.getCuriosityPhotos();
+                if (curiosityPhotos != null) {
+                    curiosityPhotosLiveData.postValue(curiosityPhotos);
+                    localDataSource.storeCuriosityPhotos(curiosityPhotos);
+                }
+            }
+        });
+        return curiosityPhotosLiveData;
     }
 }
